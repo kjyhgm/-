@@ -71,8 +71,8 @@
 </head>
 <body>
   <h1>🍚 오늘 뭐 먹지?</h1>
-<p style="font-size:0.9em; color:#555; text-align:center; margin-bottom:5px;">종류와 형태를 선택하세요~</p>
-  
+  <p style="font-size:0.9em; color:#555; text-align:center; margin-bottom:5px;">종류와 형태를 선택하세용</p>
+    
   <!-- 1차 카테고리 -->
   <div class="category-title">📂 종류</div>
   <div id="primary" class="container">
@@ -93,13 +93,13 @@
     <button class="secondary-btn" onclick="selectSecondary('기타', this)">기타</button>
   </div>
 
+  <hr style="border: none; border-top: 1px dotted #aaa; width: 100px; margin: 20px auto;">
+  
   <!-- 추천 버튼 -->
   <div class="container">
     <button onclick="showResult()" style="background-color:black; color:white; padding:12px 36px; font-size: 1.1em; border-radius:18px;">추천 CLICK!</button>
   </div>
 
-<hr style="border: none; border-top: 1px dotted #aaa; width: 50px; margin: 10px auto;">
-  
   <!-- 결과 출력 -->
   <div class="menu" id="result">밥해먹기 귀찮다~</div>
   
@@ -280,22 +280,36 @@
     }
 
     function showResult() {
-      const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = "";
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = ""; // 초기화
 
-      let filtered = menuData.filter(item => {
-        const matchPrimary = primaryChoices.length === 0 || primaryChoices.some(tag => item.tags.includes(tag));
-        const matchSecondary = secondaryChoices.length === 0 || secondaryChoices.some(tag => item.tags.includes(tag));
-        return matchPrimary && matchSecondary;
-      });
+  let filtered;
 
-      if (filtered.length === 0) filtered = menuData;
+  // 아무것도 선택 안 했을 때
+  if (primaryChoices.length === 0 && secondaryChoices.length === 0) {
+    filtered = menuData;
+  } else { // 하나라도 선택했을 때
+    filtered = menuData.filter(item => {
+      const matchPrimary = primaryChoices.length === 0 || primaryChoices.some(tag => item.tags.includes(tag));
+      const matchSecondary = secondaryChoices.length === 0 || secondaryChoices.some(tag => item.tags.includes(tag));
+      return matchPrimary && matchSecondary;
+    });
 
-      const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
+    if (filtered.length === 0) {
       const span = document.createElement("span");
       span.className = "menu-item";
-      span.textContent = randomItem.name;
+      span.textContent = "😢 해당 메뉴가 없어용";
       resultDiv.appendChild(span);
+      return;
+    }
+  }
+
+  // 랜덤으로 한 개 선택
+  const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
+  const span = document.createElement("span");
+  span.className = "menu-item";
+  span.textContent = randomItem.name;
+  resultDiv.appendChild(span);
     }
   </script>
 
