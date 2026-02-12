@@ -161,7 +161,7 @@
       { name: "비빔면", tags: ["요리", "면"] },
       { name: "냉면", tags: ["요리", "면", "외식"] },
       { name: "비빔냉면", tags: ["요리", "면"] },
-      { name: "국수", tags: ["요리", "면"] },
+      { name: "잔치국수", tags: ["요리", "면"] },
       { name: "비빔국수", tags: ["요리", "면"] },
       { name: "우동", tags: ["요리", "국", "면"] },
       { name: "메밀국수", tags: ["요리", "국", "면", "외식"] },
@@ -302,5 +302,48 @@
     <p>🍜 간단 &lt; 간단식이나 간식</p>
   </div>
 
+<div class="container">
+  <button onclick="toggleMenuTable()" style="background-color:#555; color:white; padding:10px 30px; border-radius:15px;">모든 메뉴 보기</button>
+</div>
+
+<div id="menu-table-container" style="display:none; margin-top:20px; max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px; border-radius:10px;">
+  <table id="menu-table" style="width:100%; border-collapse:collapse; font-size:0.9em;">
+    <thead>
+      <tr style="background-color:#f0f0f0;">
+        <th style="border:1px solid #ccc; padding:5px;">이름</th>
+        <th style="border:1px solid #ccc; padding:5px;">종류</th>
+        <th style="border:1px solid #ccc; padding:5px;">형태</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- JS에서 채워짐 -->
+    </tbody>
+  </table>
+</div>
+<script>
+  function toggleMenuTable() {
+    const container = document.getElementById('menu-table-container');
+    container.style.display = container.style.display === 'none' ? 'block' : 'none';
+    
+    if(container.style.display === 'block') {
+      populateMenuTable();
+    }
+  }
+
+  function populateMenuTable() {
+    const tbody = document.querySelector('#menu-table tbody');
+    tbody.innerHTML = ''; // 초기화
+    
+    menuData.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="border:1px solid #ccc; padding:5px;">${item.name}</td>
+        <td style="border:1px solid #ccc; padding:5px;">${item.tags[0] || ''}</td>
+        <td style="border:1px solid #ccc; padding:5px;">${item.tags.slice(1).join(', ')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+</script>
 </body>
 </html>
