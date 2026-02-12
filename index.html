@@ -290,9 +290,9 @@
   if (primaryChoices.length === 0 && secondaryChoices.length === 0) {
     filtered = menuData;
   } else { // 하나라도 선택했을 때
-    filtered = menuData.filter(item => {
-      const matchPrimary = primaryChoices.length === 0 || primaryChoices.some(tag => item.tags.includes(tag));
-      const matchSecondary = secondaryChoices.length === 0 || secondaryChoices.some(tag => item.tags.includes(tag));
+    let filtered = menuData.filter(item => {
+      const matchPrimary = primaryChoices.length === 0 ? true : primaryChoices.some(tag => item.tags.includes(tag));
+      const matchSecondary = secondaryChoices.length === 0 ? true : secondaryChoices.every(tag => item.tags.includes(tag));
       return matchPrimary && matchSecondary;
     });
 
