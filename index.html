@@ -71,7 +71,7 @@
 <body>
   <h1>🍚 오늘 뭐 먹지?</h1>
 
-  <div class="menu" id="result">이거나 처먹어 😎</div>
+  <div class="menu" id="result">밥해먹기 귀찮다~</div>
 
   <div class="container">
     <button onclick="showResult()" style="background-color:black; color:white; padding:10px 30px; border-radius:15px;">추천</button>
@@ -126,32 +126,28 @@
     }
 
     function showResult() {
-      if(!primaryChoice || !secondaryChoice){
-        alert("먼저 종류와 형태를 선택하세요 ㅋㅋ");
-        return;
-      }
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = ""; // 초기화
 
-      const resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = ""; // 초기화
+  // 필터링
+  let filtered = menuData.filter(item => {
+    const matchPrimary = primaryChoice ? item.tags.includes(primaryChoice) : true;
+    const matchSecondary = secondaryChoice ? item.tags.includes(secondaryChoice) : true;
+    return matchPrimary && matchSecondary;
+  });
 
-      // 필터링
-      const filtered = menuData.filter(item => 
-        item.tags.includes(primaryChoice) && item.tags.includes(secondaryChoice)
-      );
+  // 필터링 결과가 없으면 전체 메뉴에서 랜덤
+  if (filtered.length === 0) {
+    filtered = menuData;
+  }
 
-      if(filtered.length === 0){
-        resultDiv.textContent = "조건에 맞는 메뉴가 없네 ㅋㅋ";
-        return;
-      }
-
-      // span으로 결과 출력
-      filtered.forEach(item => {
-        const span = document.createElement("span");
-        span.className = "menu-item";
-        span.textContent = item.name;
-        resultDiv.appendChild(span);
-      });
-    }
+  // 랜덤으로 한 개 선택해서 span으로 출력
+  const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
+  const span = document.createElement("span");
+  span.className = "menu-item";
+  span.textContent = randomItem.name;
+  resultDiv.appendChild(span);
+}
   </script>
 </body>
 </html>
